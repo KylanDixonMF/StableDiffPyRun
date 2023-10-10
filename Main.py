@@ -3,6 +3,7 @@ import torch
 from PIL import Image
 import torchvision.transforms as transforms
 
+print(torch.version.cuda)
 # load both base & refiner
 base = DiffusionPipeline.from_pretrained(
     "stabilityai/stable-diffusion-xl-base-1.0", torch_dtype=torch.float16, variant="fp16", use_safetensors=True
@@ -37,3 +38,7 @@ image = refiner(
     denoising_start=high_noise_frac,
     image=image,
 ).images[0]
+
+# Assuming image is a tensor
+img = transforms.ToPILImage()(image)
+img.save("Users/12082/Desktop/SDXLOutput/output_image.png")
