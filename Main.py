@@ -4,11 +4,12 @@ from PIL import Image
 import torchvision.transforms as transforms
 
 print(torch.version.cuda)
+print(torch.cuda.is_available())
 # load both base & refiner
 base = DiffusionPipeline.from_pretrained(
     "stabilityai/stable-diffusion-xl-base-1.0", torch_dtype=torch.float16, variant="fp16", use_safetensors=True
 )
-base.to("cuda")
+base.enable_model_cpu_offload()  #this is CPU to change to GPU use .to("cuda")
 refiner = DiffusionPipeline.from_pretrained(
     "stabilityai/stable-diffusion-xl-refiner-1.0",
     text_encoder_2=base.text_encoder_2,
@@ -17,7 +18,7 @@ refiner = DiffusionPipeline.from_pretrained(
     use_safetensors=True,
     variant="fp16",
 )
-refiner.to("cuda")
+refiner.enable_model_cpu_offload() #this is CPU to change to GPU use .to("cuda")
 
 # Define how many steps and what % of steps to be run on each experts (80/20) here
 n_steps = 40
