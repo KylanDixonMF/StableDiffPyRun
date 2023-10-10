@@ -23,3 +23,6 @@ During intital load phase, if you do not have a 'cuda' compatible GPU or if you 
 TO +pipe.enable_model_cpu_offload()
 LINUX: pip3 install torch torchvision torchaudio --index-url https://download.pytorch.org/whl/cpu
 WINDOWS: pip3 install torch torchvision torchaudio
+
+## Git clone for SDXL:
+git clone https://huggingface.co/stabilityai/stable-diffusion-xl-base-1.0
