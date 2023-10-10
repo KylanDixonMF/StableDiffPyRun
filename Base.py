@@ -14,7 +14,7 @@ prompt = input("Enter prompt: ")
 images = pipe(prompt=prompt).images[0]
 
 # Specify the directory where you want to save the image
-save_directory = "Users/12082/Desktop/SDXLOutput"  # Replace with your specific directory path
+save_directory = "/home/autonomyllc/Desktop/SDXL/output"  # Replace with your specific directory path
 
 # Define the filename for the saved image
 filename = "generated_image.png"  # You can change the filename as needed
