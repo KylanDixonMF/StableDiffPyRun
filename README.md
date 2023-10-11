@@ -10,7 +10,7 @@ Install depedancies and libraries using commands
 The program needs to initally download and saftensors and load files. There for an intial install run to be ran within the directory with "python Main.py" 
 
 ## Version to Run
-Base.py will work on windows. To run CPU instead of GPU if not using CUDA 12.1 and pytorch run command: pip3 install torch torchvision torchaudio
+Base.py will work on windows. To run CPU instead of GPU if not using CUDA 12.1 and pytorch run command: change "base.to("cuda") to base.pipe.enable_model_cpu_offload()
 
 ## Potential Issues and Current Solutions
 During intital load phase, if you do not have a 'cuda' compatible GPU or if you do not have the the proper software to run:
