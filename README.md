@@ -11,6 +11,7 @@ The program needs to initally download and saftensors and load files. There for 
 
 ## Version to Run
 Base.py will work on windows. To run CPU instead of GPU if not using CUDA 12.1 and pytorch run command: change "base.to("cuda") to base.pipe.enable_model_cpu_offload()
+This change and running Base.py which does not contain refiners will reduce load times and cpu load.
 
 ## Potential Issues and Current Solutions
 During intital load phase, if you do not have a 'cuda' compatible GPU or if you do not have the the proper software to run:
