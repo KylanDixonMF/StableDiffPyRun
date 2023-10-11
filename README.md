@@ -24,11 +24,3 @@ TO +pipe.enable_model_cpu_offload()
 LINUX: pip3 install torch torchvision torchaudio --index-url https://download.pytorch.org/whl/cpu
 WINDOWS: pip3 install torch torchvision torchaudio
 
-## Current error to fix: Traceback (most recent call last):
-  File "/home/autonomyllc/Desktop/SDXL/StableDiffPyRun/Main.py", line 44, in <module>
-    img = transforms.ToPILImage()(image)
-  File "/home/autonomyllc/.local/lib/python3.10/site-packages/torchvision/transforms/transforms.py", line 234, in __call__
-    return F.to_pil_image(pic, self.mode)
-  File "/home/autonomyllc/.local/lib/python3.10/site-packages/torchvision/transforms/functional.py", line 262, in to_pil_image
-    raise TypeError(f"pic should be Tensor or ndarray. Got {type(pic)}.")
-TypeError: pic should be Tensor or ndarray. Got <class 'PIL.Image.Image'>.
