@@ -24,7 +24,7 @@ refiner.to("cuda") #this is CPU to change to GPU use .to("cuda")
 n_steps = 40
 high_noise_frac = 0.8
 
-prompt = input("Enter image prompt: ")
+prompt = input("\nEnter image prompt: \n")
 
 # run both experts
 image = base(
@@ -41,5 +41,4 @@ image = refiner(
 ).images[0]
 
 # Assuming image is a tensor
-img = transforms.ToPILImage()(image)
-img.save("/home/autonomyllc/Desktop/SDXL/output/genImage.png")
+image.save("/home/autonomyllc/Desktop/SDXL/output/genImage.png")
