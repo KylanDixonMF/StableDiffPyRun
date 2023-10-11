@@ -16,8 +16,8 @@ Base.py will work on windows. To run CPU instead of GPU if not using CUDA 12.1 a
 During intital load phase, if you do not have a 'cuda' compatible GPU or if you do not have the the proper software to run:
 
 - NVIDIA GPU without CUDA drivers version 12.1 is compatible with pytorch: https://developer.nvidia.com/cuda-downloads?target_os=Windows&target_arch=x86_64&target_version=10&target_type=exe_local  
-- For windows: pip3 install torch torchvision torchaudio --index-url https://download.pytorch.org/whl/cu121
-- For linux: pip3 install torch torchvision torchaudio
+- For linux: pip3 install torch torchvision torchaudio --index-url https://download.pytorch.org/whl/cu121
+- For windows: pip3 install torch torchvision torchaudio
 
 - FOR NON-COMPATIBLE GPU: adjust line: - pipe.to("cuda")
 TO +pipe.enable_model_cpu_offload()
