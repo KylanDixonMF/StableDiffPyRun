@@ -1,9 +1,13 @@
 import tensorflow as tf
 import numpy as np
+import pandas as pd
 from transformers import DiffusionModel
 
-# Load your custom dataset here (replace with your data loading code)
-# Your dataset should include both images and captions.
+# Define the path to your CSV file
+csv_file_path = "your_dataset.csv"  # Replace with the actual file path
+
+# Load your custom dataset
+dataset = pd.read_csv(csv_file_path)
 
 # Define hyperparameters
 batch_size = 4
@@ -29,12 +33,21 @@ diffusion_ft_trainer.compile(optimizer=optimizer, loss=loss_fn)
 
 # Fine-tune the model
 # Replace this with your dataset and appropriate preprocessing
-# Make sure your dataset generator yields pairs of (images, captions)
+# Make sure your dataset contains columns 'image_path' and 'caption'
 for epoch in range(epochs):
     print(f"Epoch {epoch + 1}/{epochs}")
-    # Replace with your training loop
-    for batch in your_data_generator:
-        images, captions = batch  # Assuming you have an appropriate data generator
+    
+    # Shuffle your dataset for each epoch if needed
+    dataset = dataset.sample(frac=1).reset_index(drop=True)
+    
+    for start in range(0, len(dataset), batch_size):
+        end = start + batch_size
+        batch = dataset[start:end]
+        
+        # You should load and preprocess your images and captions here
+        images = batch['image_path'].apply(load_and_preprocess_image).to_numpy()
+        captions = batch['caption'].to_numpy()
+        
         loss = diffusion_ft_trainer.train_on_batch([images, captions], images)  # Adjust inputs and targets as needed
         print(f"Batch loss: {loss}")
 
