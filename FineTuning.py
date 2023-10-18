@@ -52,6 +52,9 @@ diffusion_ft_trainer.compile(optimizer=optimizer, loss=loss_fn)
 # Fine-tune the model
 # Replace this with your dataset and appropriate preprocessing
 # Make sure your dataset contains columns 'image_path' and 'caption'
+image_column_name = 'image_path'  # Adjust to your column name
+caption_column_name = 'caption'  # Adjust to your column name
+
 for epoch in range(epochs):
     print(f"Epoch {epoch + 1}/{epochs}")
     
@@ -63,8 +66,8 @@ for epoch in range(epochs):
         batch = dataset[start:end]
         
         # You should load and preprocess your images and captions here
-        images = batch['image_path'].apply(load_and_preprocess_image).to_numpy()
-        captions = batch['caption'].to_numpy()
+        images = batch[image_column_name].apply(load_and_preprocess_image).to_numpy()
+        captions = batch[caption_column_name].to_numpy()
         
         loss = diffusion_ft_trainer.train_on_batch([images, captions], images)  # Adjust inputs and targets as needed
         print(f"Batch loss: {loss}")
