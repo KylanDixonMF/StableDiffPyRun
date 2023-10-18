@@ -1,7 +1,7 @@
 import tensorflow as tf
 
 # Define the image preprocessing function
-def load_and_preprocess_image(image_path, target_size=(1024, 1024)):
+def load_and_preprocess_image(image_path, target_size=(1024, 1024)): # change dims as needed
     # Load the image from the file path
     image = tf.io.read_file(image_path)
     image = tf.image.decode_image(image, channels=3)  # Assuming RGB images

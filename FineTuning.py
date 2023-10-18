@@ -1,13 +1,31 @@
 import tensorflow as tf
 import numpy as np
 import pandas as pd
+import pyarrow.parquet as pq
 from transformers import DiffusionModel
+from PreprocessImage import load_and_preprocess_image 
 
-# Define the path to your CSV file
-csv_file_path = "your_dataset.csv"  # Replace with the actual file path
+# Define the path to your CSV and Parquet files
+csv_file_path = "your_dataset.csv"  # CSV file path
+parquet_file_path = "your_dataset.parquet"  # Parquet file path
 
-# Load your custom dataset
-dataset = pd.read_csv(csv_file_path)
+# Define a function to load data from CSV
+def load_data_from_csv(csv_file_path):
+    return pd.read_csv(csv_file_path)
+
+# Define a function to load data from Parquet
+def load_data_from_parquet(parquet_file_path):
+    parquet_file = pq.read_table(parquet_file_path)
+    return parquet_file.to_pandas()
+
+# Choose the dataset format here (CSV or Parquet)
+use_csv = False  # Set this to True for CSV, False for Parquet
+
+# Load your custom dataset based on the chosen format
+if use_csv:
+    dataset = load_data_from_csv(csv_file_path)
+else:
+    dataset = load_data_from_parquet(parquet_file_path)
 
 # Define hyperparameters
 batch_size = 4
@@ -52,4 +70,4 @@ for epoch in range(epochs):
         print(f"Batch loss: {loss}")
 
 # Save the fine-tuned model
-diffusion_ft_trainer.save("fine_tuned_diffusion_model.h5")
+diffusion_ft_trainer.save("fine_tuned_diffusion_model.h5") #edit path for model
