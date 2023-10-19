@@ -5,6 +5,14 @@ import pyarrow.parquet as pq
 from diffusers import DiffusionPipeline
 from PreprocessImage import load_and_preprocess_image 
 
+class StableDiffusionXLLayer(tf.keras.layers.Layer):
+  def __init__(self, *args, **kwargs):
+    super().__init__(*args, **kwargs)
+    self.pipeline = DiffusionPipeline.from_pretrained("stabilityai/stable-diffusion-xl-base-1.0")
+
+  def call(self, inputs):
+    return self.pipeline(inputs[0], inputs[1])
+
 gpus = tf.config.experimental.list_physical_devices('GPU')
 print("Num GPUs Available: ", len(gpus))
 if gpus:
@@ -40,11 +48,15 @@ learning_rate = 1e-4
 weight_decay = 1e-2
 
 # Load the pretrained model
-pretrained_model = DiffusionPipeline.from_pretrained("stabilityai/stable-diffusion-xl-base-1.0")
+model = tf.keras.Sequential([
+  StableDiffusionXLLayer(),
+  # Add any additional layers or operations for your fine-tuning task here
+])
+
 
 # Set up the Trainer
 diffusion_ft_trainer = tf.keras.Sequential([
-    pretrained_model,  # Use the pretrained model as the first layer
+    model,  # Use the pretrained model as the first layer
     # Add any additional layers or operations for your fine-tuning task here
 ])
 
@@ -71,15 +83,18 @@ for epoch in range(epochs):
         end = start + batch_size
         batch = dataset[start:end]
         
-        # You should load and preprocess your images and captions here
-        images = batch[image_column_name].apply(load_and_preprocess_image).to_numpy()
+        # Load and preprocess your images and captions return list instead of df
+        images = tf.stack([x['image'] for x in batch[image_column_name].apply(load_and_preprocess_image).tolist()])
+
+
+
         captions = batch[caption_column_name].to_numpy()
         
         print(f"Batch start: {start}, end: {end}")
         print(f"Number of images in batch: {len(images)}")
         print(f"Number of captions in batch: {len(captions)}")
         
-        loss = diffusion_ft_trainer.train_on_batch([images, captions], images)  # Adjust inputs and targets as needed
+        loss = diffusion_ft_trainer.train_on_batch(tf.stack(images), images)  # Adjust inputs and targets as needed
         print(f"Batch loss: {loss}")
 
 # Save the fine-tuned model
